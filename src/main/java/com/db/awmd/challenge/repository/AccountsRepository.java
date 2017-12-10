@@ -10,4 +10,8 @@ public interface AccountsRepository {
   Account getAccount(String accountId);
 
   void clearAccounts();
+  
+  //API to persist account update
+  void updateAccount(Account account);
+  
 }

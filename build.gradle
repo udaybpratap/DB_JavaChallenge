@@ -25,5 +25,10 @@ repositories {
 dependencies {
   compile("org.springframework.boot:spring-boot-starter-web")
   compileOnly("org.projectlombok:lombok")
-  testCompile("org.springframework.boot:spring-boot-starter-test")
+  testCompile 'org.hamcrest:hamcrest-core:1.2' //Uday Pratap: Added to resolve dependency issue
+  testCompile("org.springframework.boot:spring-boot-starter-test"){
+	exclude module: "hamcrest-core"
+  }
+  testCompile("org.projectlombok:lombok")
 }
+

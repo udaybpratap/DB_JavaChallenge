@@ -1,8 +1,14 @@
 package com.db.awmd.challenge.service;
 
+import org.springframework.stereotype.Service;
+
 import com.db.awmd.challenge.domain.Account;
 import lombok.extern.slf4j.Slf4j;
 
+/*
+ * Uday Pratap: Added @Service annotation to get it register with spring container 
+ */
+@Service
 @Slf4j
 public class EmailNotificationService implements NotificationService {
 
