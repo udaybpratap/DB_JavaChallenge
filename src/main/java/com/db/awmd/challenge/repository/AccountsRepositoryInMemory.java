@@ -27,13 +27,7 @@ public class AccountsRepositoryInMemory implements AccountsRepository {
 	@Override
 	public void clearAccounts() {
 		accounts.clear();
-	}
-
-	// API to persist account update
-	@Override
-	public void updateAccount(Account account) {
-		accounts.replace(account.getAccountId(), account);
-	}
+	}	
 
 	/*@Override
 	public Map<String, Account> getAllAccount() {

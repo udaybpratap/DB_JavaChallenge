@@ -139,7 +139,7 @@ public class AccountsServiceTest {
 		}
 	}
 
-	// Test for amount transfer success
+	// Test for amount transfered successfully
 	@Test
 	public void transferAmount() throws Exception {
 		Account fromAccount = this.accountsService.getAccount(fromAccountId);
@@ -151,8 +151,7 @@ public class AccountsServiceTest {
 
 		assertThat(this.accountsService.transferAmount(fromAccountId, toAccountId, transferAmount));
 
-		// Validate fromAccount has been debited and toAccount credited with
-		// transfer amount
+		// Validate fromAccount has been debited and toAccount credited with transfer amount
 		assertThat(((fromAccount.getBalance()).compareTo(fromAccountBalance.subtract(transferAmount)) == 0)).isTrue();
 		assertThat(((toAccount.getBalance()).compareTo(toAccountBalance.add(transferAmount)) == 0)).isTrue();
 

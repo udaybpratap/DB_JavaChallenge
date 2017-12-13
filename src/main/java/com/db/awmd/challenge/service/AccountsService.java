@@ -81,11 +81,7 @@ public class AccountsService {
 				// negative after deduction of amount
 				if (fromAccount.hasSufficientBalance(transferAmount)) {
 					fromAccount.withdraw(transferAmount);
-					toAccount.deposit(transferAmount);
-
-					// Update fromAccount and toAccount in repository
-					// this.accountsRepository.updateAccount(fromAccount);
-					// this.accountsRepository.updateAccount(toAccount);
+					toAccount.deposit(transferAmount);					
 
 					// Notify the transfer to both account holder
 					notifier.notifyAboutTransfer(fromAccount,
