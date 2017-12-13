@@ -37,12 +37,12 @@ public class Account {
   
   //API to withdraw amount within the object
   public void withdraw(BigDecimal amount){
-	  this.balance.subtract(amount);
+	  this.balance = this.balance.subtract(amount);
   }
   
   //API to deposit amount within the object
   public void deposit(BigDecimal amount){
-	  this.balance.add(amount);
+	  this.balance = this.balance.add(amount);
   }
   
   public boolean hasSufficientBalance(BigDecimal amount){

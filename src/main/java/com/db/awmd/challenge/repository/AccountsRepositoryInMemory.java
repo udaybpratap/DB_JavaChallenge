@@ -9,31 +9,35 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class AccountsRepositoryInMemory implements AccountsRepository {
 
-  private final Map<String, Account> accounts = new ConcurrentHashMap<>();
+	private final Map<String, Account> accounts = new ConcurrentHashMap<>();
 
-  @Override
-  public void createAccount(Account account) throws DuplicateAccountIdException {
-    Account previousAccount = accounts.putIfAbsent(account.getAccountId(), account);
-    if (previousAccount != null) {
-      throw new DuplicateAccountIdException(
-        "Account id " + account.getAccountId() + " already exists!");
-    }
-  }
+	@Override
+	public void createAccount(Account account) throws DuplicateAccountIdException {
+		Account previousAccount = accounts.putIfAbsent(account.getAccountId(), account);
+		if (previousAccount != null) {
+			throw new DuplicateAccountIdException("Account id " + account.getAccountId() + " already exists!");
+		}
+	}
 
-  @Override
-  public Account getAccount(String accountId) {
-    return accounts.get(accountId);
-  }
+	@Override
+	public Account getAccount(String accountId) {
+		return accounts.get(accountId);
+	}
 
-  @Override
-  public void clearAccounts() {
-    accounts.clear();
-  }
-  
-  //API to persist account update
-  @Override
-  public void updateAccount(Account account){
-	  accounts.replace(account.getAccountId(), account);
-  }
+	@Override
+	public void clearAccounts() {
+		accounts.clear();
+	}
+
+	// API to persist account update
+	@Override
+	public void updateAccount(Account account) {
+		accounts.replace(account.getAccountId(), account);
+	}
+
+	/*@Override
+	public Map<String, Account> getAllAccount() {
+		return accounts;
+	}*/
 
 }

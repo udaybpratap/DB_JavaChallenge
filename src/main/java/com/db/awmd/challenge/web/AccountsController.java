@@ -1,5 +1,7 @@
 package com.db.awmd.challenge.web;
 
+import java.util.Map;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,47 +28,53 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AccountsController {
 
-  private final AccountsService accountsService;
+	private final AccountsService accountsService;
 
-  @Autowired
-  public AccountsController(AccountsService accountsService) {
-    this.accountsService = accountsService;
-  }
+	@Autowired
+	public AccountsController(AccountsService accountsService) {
+		this.accountsService = accountsService;
+	}
 
-  @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Object> createAccount(@RequestBody @Valid Account account) {
-    log.info("Creating account {}", account);
+	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Object> createAccount(@RequestBody @Valid Account account) {
+		log.info("Creating account {}", account);
 
-    try {
-    this.accountsService.createAccount(account);
-    } catch (DuplicateAccountIdException daie) {
-      return new ResponseEntity<>(daie.getMessage(), HttpStatus.BAD_REQUEST);
-    }
+		try {
+			this.accountsService.createAccount(account);
+		} catch (DuplicateAccountIdException daie) {
+			return new ResponseEntity<>(daie.getMessage(), HttpStatus.BAD_REQUEST);
+		}
 
-    return new ResponseEntity<>(HttpStatus.CREATED);
-  }
+		return new ResponseEntity<>(HttpStatus.CREATED);
+	}
 
-  @GetMapping(path = "/{accountId}")
-  public Account getAccount(@PathVariable String accountId) {
-    log.info("Retrieving account for id {}", accountId);
-    return this.accountsService.getAccount(accountId);
-  }
-  
-  /*
-   * Uday Pratap: Amount transfer service point. 
-   */
-  @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Object> transferAmount(@RequestBody @Valid TransferValueObject transferValueObject) {
-    log.info("Transfering amount "+transferValueObject.getTransferAmount()+ " From account "
-    +transferValueObject.getFromAccountId() +" TO account "+transferValueObject.getToAccountId());
-    try {
-        this.accountsService.transferAmount(transferValueObject.getFromAccountId(),
-        		transferValueObject.getToAccountId(), transferValueObject.getTransferAmount());
-    }catch (Exception ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
-    }
-    return new ResponseEntity<>(HttpStatus.OK);
-  }
-  
+	@GetMapping(path = "/{accountId}")
+	public Account getAccount(@PathVariable String accountId) {
+		log.info("Retrieving account for id {}", accountId);
+		return this.accountsService.getAccount(accountId);
+	}
+
+	/*
+	 * Uday Pratap: Amount transfer service point.
+	 */
+	@PutMapping(path = "/transfer", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Object> transferAmount(@RequestBody @Valid TransferValueObject transferValueObject) {
+		log.info("Transfering amount " + transferValueObject.getTransferAmount() + " From account "
+				+ transferValueObject.getFromAccountId() + " TO account " + transferValueObject.getToAccountId());
+		try {
+			this.accountsService.transferAmount(transferValueObject.getFromAccountId(),
+					transferValueObject.getToAccountId(), transferValueObject.getTransferAmount());
+		} catch (Exception ex) {
+			return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	/*
+	 * @GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE) public
+	 * Map<String, Account> getAllAccount() throws Exception{ log.info(
+	 * "Retriving all accounts!!"); return this.accountsService.getAllAccount();
+	 * }
+	 */
 
 }
